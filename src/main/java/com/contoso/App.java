@@ -53,6 +53,7 @@ public class App {
             System.out.println("0. Exit");
             System.out.println("1. Display access token");
             System.out.println("2. List calendar events");
+            System.out.println("3. Create test event");
 
             try {
                 choice = input.nextInt();
@@ -73,10 +74,12 @@ public class App {
                 case 2:
                     // Lista os eventos de um User a partir do Token
                     listCalendarEvents(accessToken);
-
+                    break;
                 case 3:
                     // Cria um evento
                     createCalendarEvent(accessToken);
+                    break;
+
                 default:
                     System.out.println("Invalid choice");
             }

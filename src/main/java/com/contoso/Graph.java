@@ -32,7 +32,7 @@ public class Graph {
 
             // Create default logger to only log errors
             DefaultLogger logger = new DefaultLogger();
-            logger.setLoggingLevel(LoggerLevel.ERROR);
+            logger.setLoggingLevel(LoggerLevel.DEBUG);
 
             // Build a Graph client
             graphClient = GraphServiceClient.builder()
@@ -79,40 +79,52 @@ public class Graph {
     }
 
     public static void createEvent(String token){
+        ensureGraphClient(token);
+
         LinkedList<Option> requestOptions = new LinkedList<Option>();
         requestOptions.add(new HeaderOption("Prefer", "outlook.timezone=\"Pacific Standard Time\""));
 
         Event event = new Event();
         event.subject = "Mentoria com fulano";
+
         ItemBody body = new ItemBody();
         body.contentType = BodyType.HTML;
         body.content = "Mentoria sobre SCRUM";
         event.body = body;
+
         DateTimeTimeZone start = new DateTimeTimeZone();
-        start.dateTime = "2020-03-18T12:00:00";
+        start.dateTime = "2020-03-20T12:00:00";
         start.timeZone = "Pacific Standard Time";
         event.start = start;
+
         DateTimeTimeZone end = new DateTimeTimeZone();
         end.dateTime = "2020-03-19T14:00:00";
         end.timeZone = "Pacific Standard Time";
         event.end = end;
+
         Location location = new Location();
         location.displayName = "Stefanini Campina Grande";
         event.location = location;
+
         LinkedList<Attendee> attendeesList = new LinkedList<Attendee>();
         Attendee attendees = new Attendee();
+
         EmailAddress emailAddress = new EmailAddress();
-        emailAddress.address = "nfpedroza@stefanini.com";
+        emailAddress.address = Graph.getUser(token).mail;
         emailAddress.name = "Nathan Fernandes";
         attendees.emailAddress = emailAddress;
-        /*
+
         attendees.type = AttendeeType.REQUIRED;
         attendeesList.add(attendees);
-        event.attendees = attendeesList;
-        */
-        graphClient.me().events()
-                .buildRequest( requestOptions )
-                .post(event);
 
+        event.attendees = attendeesList;
+
+        try {
+            graphClient.me().events()
+                    .buildRequest(requestOptions)
+                    .post(event);
+        }catch(Exception e) {
+            System.out.println("merda" + e.toString());
+        }
     }
 }
