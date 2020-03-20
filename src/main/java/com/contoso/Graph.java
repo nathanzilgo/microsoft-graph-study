@@ -99,38 +99,49 @@ public class Graph {
         LinkedList<Option> requestOptions = new LinkedList<Option>();
         //requestOptions.add(new HeaderOption("Authorization", "Bearer nupl9.C5rb]aO5:yvT:3L.TKcH7tB1Im" ));
 
+        // Participantes:
+        LinkedList<Attendee> attendeesList = new LinkedList<Attendee>();
+        Attendee mentor = new Attendee();
+        Attendee mentorado = new Attendee();
+
+        EmailAddress mentorMail = new EmailAddress();
+        mentorMail.address = "dwlima@stefanini.com";
+        mentorMail.name = "Daniell Wagner";
+        mentor.emailAddress = mentorMail;
+
+        EmailAddress mentoradoMail = new EmailAddress();
+        mentoradoMail.address = "nfpedroza@stefanini.com";
+        mentoradoMail.name = "Nathan Fernandes";
+        mentorado.emailAddress = mentoradoMail;
+
+        mentor.type = AttendeeType.REQUIRED;
+        mentorado.type = AttendeeType.REQUIRED;
+
+        attendeesList.add(mentor);
+        attendeesList.add(mentorado);
+
+        // Evento:
         Event event = new Event();
-        event.subject = "Mentoria com fulano";
+        event.subject = "Mentoria com " + mentor.emailAddress.name;
 
         ItemBody body = new ItemBody();
         body.contentType = BodyType.HTML;
-        body.content = "Mentoria sobre SCRUM";
+        body.content = "Mentoria sobre SCRUM \n\n Você tem uma mentoria marcada com o mentor " + mentor.emailAddress.name + "!!";
         event.body = body;
 
         DateTimeTimeZone start = new DateTimeTimeZone();
-        start.dateTime = "2020-03-20T12:00:00";
+        start.dateTime = "2020-03-25T12:00:00";
         start.timeZone = "Pacific Standard Time";
         event.start = start;
 
         DateTimeTimeZone end = new DateTimeTimeZone();
-        end.dateTime = "2020-03-22T14:00:00";
+        end.dateTime = "2020-03-25T14:00:00";
         end.timeZone = "Pacific Standard Time";
         event.end = end;
 
         Location location = new Location();
         location.displayName = "Stefanini Campina Grande";
         event.location = location;
-
-        LinkedList<Attendee> attendeesList = new LinkedList<Attendee>();
-        Attendee attendees = new Attendee();
-
-        EmailAddress emailAddress = new EmailAddress();
-        emailAddress.address = Graph.getUser(token).mail;
-        emailAddress.name = "Nathan Fernandes";
-        attendees.emailAddress = emailAddress;
-
-        attendees.type = AttendeeType.REQUIRED;
-        attendeesList.add(attendees);
 
         event.attendees = attendeesList;
 
