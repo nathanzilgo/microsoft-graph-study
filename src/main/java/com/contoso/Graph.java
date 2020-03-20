@@ -25,6 +25,20 @@ public class Graph {
     private static IGraphServiceClient graphClient = null;
     private static SimpleAuthProvider authProvider = null;
 
+
+    private static void ensureGraphApiClient(String credential){
+        authProvider = new SimpleAuthProvider(credential);
+
+        DefaultLogger logger = new DefaultLogger();
+
+        logger.setLoggingLevel(LoggerLevel.DEBUG);
+
+        graphClient = GraphServiceClient.builder()
+                .authenticationProvider(authProvider)
+                .logger(logger)
+                .buildClient();
+    }
+
     private static void ensureGraphClient(String accessToken) {
         if (graphClient == null) {
             // Create the auth provider
@@ -79,10 +93,11 @@ public class Graph {
     }
 
     public static void createEvent(String token){
+        //final String credential = "nupl9.C5rb]aO5:yvT:3L.TKcH7tB1Im";
         ensureGraphClient(token);
 
         LinkedList<Option> requestOptions = new LinkedList<Option>();
-        requestOptions.add(new HeaderOption("Prefer", "outlook.timezone=\"Pacific Standard Time\""));
+        //requestOptions.add(new HeaderOption("Authorization", "Bearer nupl9.C5rb]aO5:yvT:3L.TKcH7tB1Im" ));
 
         Event event = new Event();
         event.subject = "Mentoria com fulano";
@@ -98,7 +113,7 @@ public class Graph {
         event.start = start;
 
         DateTimeTimeZone end = new DateTimeTimeZone();
-        end.dateTime = "2020-03-19T14:00:00";
+        end.dateTime = "2020-03-22T14:00:00";
         end.timeZone = "Pacific Standard Time";
         event.end = end;
 
@@ -120,11 +135,13 @@ public class Graph {
         event.attendees = attendeesList;
 
         try {
-            graphClient.me().events()
-                    .buildRequest(requestOptions)
+            graphClient.me().calendar().events()
+                    .buildRequest()
                     .post(event);
         }catch(Exception e) {
-            System.out.println("merda" + e.toString());
+
+            System.out.println("Deu águia:   ");
+            e.printStackTrace();
         }
     }
 }
