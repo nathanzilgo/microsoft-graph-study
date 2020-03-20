@@ -110,8 +110,8 @@ public class Graph {
         mentor.emailAddress = mentorMail;
 
         EmailAddress mentoradoMail = new EmailAddress();
-        mentoradoMail.address = "nfpedroza@stefanini.com";
-        mentoradoMail.name = "Nathan Fernandes";
+        mentoradoMail.address = "gmcarneiro@stefanini.com";
+        mentoradoMail.name = "Guilherme Carneiro";
         mentorado.emailAddress = mentoradoMail;
 
         mentor.type = AttendeeType.REQUIRED;
@@ -126,17 +126,22 @@ public class Graph {
 
         ItemBody body = new ItemBody();
         body.contentType = BodyType.HTML;
-        body.content = "Mentoria sobre SCRUM \n\n Você tem uma mentoria marcada com o mentor " + mentor.emailAddress.name + "!!";
+        body.content = "" +
+                "<b>Mentoria sobre SCRUM</b> <br>" +
+                "Olá, " + mentorado.emailAddress.name + " <br> " +
+                "Você tem uma mentoria marcada com o mentor "
+                + mentor.emailAddress.name + "!!";
+
         event.body = body;
 
         DateTimeTimeZone start = new DateTimeTimeZone();
-        start.dateTime = "2020-03-25T12:00:00";
-        start.timeZone = "Pacific Standard Time";
+        start.dateTime = "2020-03-26T16:00:00";
+        start.timeZone = "Bahia Standard Time";
         event.start = start;
 
         DateTimeTimeZone end = new DateTimeTimeZone();
-        end.dateTime = "2020-03-25T14:00:00";
-        end.timeZone = "Pacific Standard Time";
+        end.dateTime = "2020-03-26T18:00:00";
+        end.timeZone = "Bahia Standard Time";
         event.end = end;
 
         Location location = new Location();
