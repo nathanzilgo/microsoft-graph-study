@@ -30,7 +30,7 @@ public class Authentication {
             return null;
         }
 
-        Set<String> scopeSet = new HashSet<>(Arrays.asList(scopes));
+        Set<String> scopeSet = new HashSet(Arrays.asList(scopes));
 
         PublicClientApplication app;
         try {
